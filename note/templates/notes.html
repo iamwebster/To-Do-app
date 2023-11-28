@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1 style="text-align:center">Notes</h1>
+<div class="container">
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <a href="{% url 'add' %}" class="btn btn-outline-success">Add task</a>
+    </div>
+</div><br />
+<div class="card">
+    <div class="list-group">
+        {% for task in tasks %}
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ task.title }}</h5>
+                <small>{{ task.time_created|date:'l | H:i | j.m.Y' }}</small>
+            </div>
+            {% if task.importance.name == 'Just' %}
+            <small>Importance: </small><small class="badge text-bg-primary">{{ task.importance.name }}</small>
+            {% elif task.importance.name == 'Urgently' %}
+            <small>Importance: </small><small class="badge text-bg-warning">{{ task.importance.name }}</small>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
