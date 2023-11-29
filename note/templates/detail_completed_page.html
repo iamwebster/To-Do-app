@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br />
+<div class="card">
+    <div class="card-body">
+        <a href="{% url 'completed' %}" class="btn btn-outline-dark btn-sm">Back to completed tasks</a>
+
+        <h1 class="card-title">• {{ task.title }}</h1>
+        <p class="card-text">Time created: {{ task.time_created|date:'l H:i j:m:Y' }}</p>
+        {% if task.time_updated != task.time_created %}
+        <p class="card-text">Time completed: {{ task.time_updated|date:'l H:i j:m:Y' }}</p>
+        {% endif %}
+        <hr />
+        <h5 class="card-text">{{ task.description }}</h5>
+        <hr />
+        <a href="{% url 'delete' task.pk %}" class="btn btn-outline-danger btn-sm">Delete task</a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -22,4 +22,4 @@ class Task(models.Model):
         return str(self.user) + " | " + self.title
 
     class Meta:
-        ordering = ["time_updated"]
+        ordering = ["-time_updated"]

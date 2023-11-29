@@ -2,11 +2,28 @@
 
 
 {% block content %}
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add task!</button>
-</form>
+<br />
+<div class="card" style="background-color:rgb(246, 255, 240)">
+    <div class="card-body">
+        <h1 class="card-title" style="text-align:center">New task</h1>
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <label for="id_title">Title:</label>
+                {{ form.title }}
+            </p>
+            <p>
+                <label for="id_description">Description:</label>
+                {{ form.description }}
+            </p>
+            <p>
+                <label for="id_importance">Importance:</label>
+                {{ form.importance }}
+            </p>
+            <button type="submit" class="btn btn-outline-success">Add task!</button>
+            <a href="{% url 'notes' %}" class="btn btn-outline-dark">Exit</a>
+        </form>
+    </div>
+</div>
 
 {% endblock %}

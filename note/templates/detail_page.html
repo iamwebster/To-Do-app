@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br />
+<div class="card">
+    <div class="card-body">
+        <a href="{% url 'notes' %}" class="btn btn-outline-dark btn-sm">Back to notes</a>
+
+        <h1 class="card-title">• {{ task.title }}</h1>
+        <p class="card-text">Time created: {{ task.time_created|date:'l H:i j:m:Y' }}</p>
+        {% if task.time_updated != task.time_created %}
+        <p class="card-text">Time updated: {{ task.time_updated|date:'l H:i j:m:Y' }}</p>
+        {% endif %}
+        <hr />
+        <h5 class="card-text">{{ task.description }}</h5>
+        <hr />
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-check form-switch">
+                {{ form.complete }}
+                <label class="form-check-label" for="id_complete">Task is complete?</label>
+            </div>
+            <button type="submit" class="btn btn-outline-primary btn-sm">Apply</button>
+        </form>
+        <hr />
+        <a href="{% url 'delete' task.pk %}" class="btn btn-outline-danger btn-sm">Delete task</a>
+    </div>
+
+</div>
+
+{% endblock %}
