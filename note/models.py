@@ -11,8 +11,8 @@ class Importance(models.Model):
 
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
+    title = models.CharField(max_length=60)
+    description = models.TextField(null=True, blank=True)
     complete = models.BooleanField(default=False)
     time_created = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)

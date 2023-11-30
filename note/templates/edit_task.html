@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br />
+<div class="card" style="background-color:rgb(246, 255, 240)">
+    <div class="card-body">
+        <h1 class="card-title" style="text-align:center">Edit: {{ task.title }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <label for="id_description">{{ form.description.label }}:</label>
+                {{ form.description }}
+            </p>
+            <p>
+                <label for="id_importance">{{ form.importance.label }}:</label>
+                {{ form.importance }}
+            </p>
+            <button type="submit" class="btn btn-outline-success">Add task!</button>
+            <a href="{% url 'detail' task.pk %}" class="btn btn-outline-dark">Exit</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

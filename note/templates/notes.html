@@ -14,7 +14,11 @@
         <a href="{% url 'detail' task.pk %}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ task.title }}</h5>
+                {% if task.time_created == task.time_updated %}
                 <small>{{ task.time_created|date:'l | H:i | j.m.Y' }}</small>
+                {% else %}
+                <small>Updated: {{ task.time_updated|date:'l | H:i | j.m.Y' }}</small>
+                {% endif %}
             </div>
             {% if task.importance.name == 'Just' %}
             <small>Importance: </small><small class="badge text-bg-primary">{{ task.importance.name }}</small>

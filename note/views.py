@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Task
-from .forms import AddTaskForm
+from .forms import AddTaskForm, EditTaskForm
 
 
 def notes_view(request):
@@ -39,14 +39,30 @@ def detail_task_view(request, pk):
 def delete_task_view(request, pk):
     task = Task.objects.get(pk=pk)
     task.delete()
-    return redirect('notes')
+    return redirect("notes")
 
 
 def completed_tasks_views(request):
     tasks = Task.objects.filter(complete=True)
-    return render(request, 'completed_tasks.html', context={'tasks': tasks})
+    return render(request, "completed_tasks.html", context={"tasks": tasks})
 
 
 def detail_complete_task(request, pk):
     task = Task.objects.get(pk=pk)
-    return render(request, 'detail_completed_page.html', context={'task': task})
+    return render(request, "detail_completed_page.html", context={"task": task})
+
+
+def edit_task_view(request, pk):
+    task = Task.objects.get(pk=pk)
+
+    if request.method == "POST":
+        form = EditTaskForm(request.POST)
+        if form.is_valid():
+            task.description = request.POST["description"]
+            task.save()
+        else:
+            print("Error form validation")
+
+        return redirect("notes")
+    form = EditTaskForm(instance=task)
+    return render(request, "edit_task.html", context={"form": form, "task": task})
