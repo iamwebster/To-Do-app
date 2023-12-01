@@ -3,13 +3,17 @@ from .models import Task, Importance
 from .forms import AddTaskForm, EditTaskForm
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def notes_view(request):
-    search = request.GET.get('search')
+    search = request.GET.get("search")
     tasks = Task.objects.filter(complete=False)
     if search:
-        tasks = tasks.filter(Q(title__icontains=search) | Q(description__icontains=search))
+        tasks = tasks.filter(
+            Q(title__icontains=search) | Q(description__icontains=search)
+        )
     p = Paginator(tasks, 15)
     page = request.GET.get("page")
     tasks = p.get_page(page)
@@ -17,6 +21,7 @@ def notes_view(request):
     return render(request, template_name="notes.html", context=context)
 
 
+@login_required
 def category(request, imp):
     importance = Importance.objects.get(name=imp)
     tasks = Task.objects.filter(importance=importance)
@@ -27,6 +32,7 @@ def category(request, imp):
     )
 
 
+@login_required
 def add_task_view(request):
     if request.method == "POST":
         form = AddTaskForm(request.POST)
@@ -42,6 +48,7 @@ def add_task_view(request):
     return render(request, "add_task.html", context={"form": form})
 
 
+@login_required
 def detail_task_view(request, pk):
     form = AddTaskForm()
     if request.method == "POST":
@@ -54,22 +61,26 @@ def detail_task_view(request, pk):
     return render(request, "detail_page.html", context={"task": task, "form": form})
 
 
+@login_required
 def delete_task_view(request, pk):
     task = Task.objects.get(pk=pk)
     task.delete()
     return redirect("notes")
 
 
+@login_required
 def completed_tasks_views(request):
     tasks = Task.objects.filter(complete=True)
     return render(request, "completed_tasks.html", context={"tasks": tasks})
 
 
+@login_required
 def detail_complete_task(request, pk):
     task = Task.objects.get(pk=pk)
     return render(request, "detail_completed_page.html", context={"task": task})
 
 
+@login_required
 def edit_task_view(request, pk):
     task = Task.objects.get(pk=pk)
 

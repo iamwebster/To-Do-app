@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<br />
+<div class="card" style="background-color:rgb(246, 255, 240)">
+    <div class="card-body">
+        <h1 class="card-title" style="text-align:center">Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <label for="id_username">{{ form.username.label }}</label>
+                {{ form.username }}
+            </p>
+            <p>
+                <label for="id_password">{{ form.password.label }}</label>
+                {{ form.password }}
+            </p>
+            <button type="submit" class="btn btn-outline-success">Login!</button>
+            <a href="{% url 'register' %}" class="btn btn-outline-primary">Register page</a>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
