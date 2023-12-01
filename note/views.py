@@ -1,12 +1,30 @@
 from django.shortcuts import render, redirect
-from .models import Task
+from .models import Task, Importance
 from .forms import AddTaskForm, EditTaskForm
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 def notes_view(request):
+    search = request.GET.get('search')
     tasks = Task.objects.filter(complete=False)
+    if search:
+        tasks = tasks.filter(Q(title__icontains=search) | Q(description__icontains=search))
+    p = Paginator(tasks, 15)
+    page = request.GET.get("page")
+    tasks = p.get_page(page)
     context = {"tasks": tasks}
     return render(request, template_name="notes.html", context=context)
+
+
+def category(request, imp):
+    importance = Importance.objects.get(name=imp)
+    tasks = Task.objects.filter(importance=importance)
+    return render(
+        request,
+        "notes_importance.html",
+        context={"tasks": tasks, "importance": importance},
+    )
 
 
 def add_task_view(request):

@@ -23,3 +23,4 @@ class Task(models.Model):
 
     class Meta:
         ordering = ["-time_updated"]
+    
